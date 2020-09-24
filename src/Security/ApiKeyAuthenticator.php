@@ -3,7 +3,6 @@
 namespace App\Security;
 
 use App\Entity\Casquette;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,12 +31,19 @@ class ApiKeyAuthenticator implements AuthenticatorInterface
      * Called on every request to decide if this authenticator should be
      * used for the request. Returning `false` will cause this authenticator
      * to be skipped.
+     *
+     * @param Request $request
+     * @return bool|null
      */
     public function supports(Request $request): ?bool
     {
         return $request->headers->has('X-AUTH-TOKEN');
     }
 
+    /**
+     * @param Request $request
+     * @return PassportInterface
+     */
     public function authenticate(Request $request): PassportInterface
     {
         $apiToken = $request->headers->get('X-AUTH-TOKEN');
@@ -81,6 +87,8 @@ class ApiKeyAuthenticator implements AuthenticatorInterface
      * Shortcut to create a PostAuthenticationToken for you, if you don't really
      * care about which authenticated token you're using.
      *
+     * @param PassportInterface $passport
+     * @param string $firewallName
      * @return PostAuthenticationToken
      */
     public function createAuthenticatedToken(PassportInterface $passport, string $firewallName): TokenInterface

@@ -57,6 +57,10 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/login", name="login", methods={"POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @return JsonResponse
      */
     public function login(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
