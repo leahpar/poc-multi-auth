@@ -79,7 +79,11 @@ class SecurityController extends AbstractController
 
         /** @var Casquette $casquette */
         foreach ($user->getCasquettes() as $casquette) {
-            $casquette->setApiToken(bin2hex(random_bytes(32)));
+            try {
+                $casquette->setApiToken(bin2hex(random_bytes(32)));
+            } catch (\Exception $e) {
+                return new JsonResponse(["message" => "Unable to generate tokens"], 500);
+            }
         }
         $em->flush();
 

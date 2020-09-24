@@ -91,4 +91,5 @@ class ApiKeyAuthenticator implements AuthenticatorInterface
 
         return new PostAuthenticationToken($passport->getUser(), $firewallName, $passport->getUser()->getRoles());
     }
+
 }
